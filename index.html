@@ -33,26 +33,24 @@
 
   /* Custom cursor */
   .cursor {
-    width: 12px; height: 12px;
+    width: 10px; height: 10px;
     background: var(--lime);
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: difference;
+    transition: width 0.2s, height 0.2s;
   }
   .cursor-ring {
-    width: 38px; height: 38px;
+    width: 36px; height: 36px;
     border: 1.5px solid var(--lime);
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: left 0.12s ease-out, top 0.12s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
-    mix-blend-mode: difference;
+    transition: left 0.1s ease-out, top 0.1s ease-out, width 0.2s, height 0.2s;
   }
 
   /* Noise overlay */
@@ -540,29 +538,26 @@
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-number">02</div>
-      <div class="project-name">Personal Finance Dashboard</div>
-      <p class="project-desc">Multi-sheet interactive budget tracker logging 6 months of income & expenses across 8 categories. Analysed 100+ transactions with automated pivot tables, reducing manual calculations by ~40–50%. Dynamic dashboard with donut charts, bar charts, and KPI cards that auto-update.</p>
-      <div class="project-stack">
-        <span class="stack-badge">Excel</span>
-        <span class="stack-badge">Pivot Tables</span>
-        <span class="stack-badge">Data Viz</span>
+    <div class="project-card featured">
+      <div class="project-info">
+        <div class="project-number">02 — Featured</div>
+        <div class="project-name">Personal Finance Dashboard</div>
+        <p class="project-desc">Multi-sheet interactive budget tracker logging 6 months of income & expenses across 8 categories. Analysed 100+ transactions with automated pivot tables, reducing manual calculations by ~40–50%. Dynamic dashboard with donut charts, bar charts, and KPI cards that auto-update.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Excel</span>
+          <span class="stack-badge">Pivot Tables</span>
+          <span class="stack-badge">Data Viz</span>
+        </div>
+        <a href="https://github.com/YOUR_USERNAME/personal-finance-dashboard" target="_blank" class="project-link">
+          View on GitHub
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-      <a href="https://github.com/YOUR_USERNAME/personal-finance-dashboard" target="_blank" class="project-link">
-        View on GitHub
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <div class="project-name">Personal Portfolio Website</div>
-      <p class="project-desc">Designed and developed a personal portfolio website to showcase technical projects and skills. Implemented a responsive layout for accessibility across desktop and mobile, with clearly structured project pages.</p>
-      <div class="project-stack">
-        <span class="stack-badge">HTML</span>
-        <span class="stack-badge">CSS</span>
+      <div class="project-visual-inner">
+        <div class="ring"></div>
+        <div class="inner-dot">💰</div>
       </div>
-      <a href="https://github.com/YOUR_USERNAME/portfolio" target="_blank" class="project-link">
-        View on GitHub
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+    </div>
 
   </div>
 </section>
@@ -574,12 +569,12 @@
     <p>Seeking co-op opportunities · University of Waterloo, Math</p>
   </div>
   <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.75rem;">
-    <a href="/cdn-cgi/l/email-protection#81e0ede3e4f3f5aff2b2b0b6b8c1e6ece0e8edafe2eeec" class="footer-email"><span class="__cf_email__" data-cfemail="bcddd0ded9cec892cf8f8d8b85fcdbd1ddd5d092dfd3d1">albert.s3179@gmail.com</span></a>
+    <a href="mailto:albert.s3179@gmail.com" class="footer-email">albert.s3179@gmail.com</a>
     <a href="https://www.linkedin.com/in/albert-shen-js" target="_blank" class="footer-email" style="font-size:0.8rem;">linkedin.com/in/albert-shen-js</a>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
