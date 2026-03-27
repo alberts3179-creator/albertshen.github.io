@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Albert Shen — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: #111118;
+    --lime: #c6f135;
+    --coral: #ff5e5b;
+    --sky: #38d9f5;
+    --violet: #b06ef3;
+    --orange: #ff9736;
+    --white: #f0eee8;
+    --muted: #555568;
+    --border: #222230;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--lime);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1.5px solid var(--lime);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: left 0.12s ease-out, top 0.12s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+    mix-blend-mode: difference;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--lime); }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--lime); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-blobs {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.18;
+    animation: float 8s ease-in-out infinite;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--violet); top: -100px; left: -150px; animation-delay: 0s; }
+  .blob-2 { width: 400px; height: 400px; background: var(--sky); bottom: 0; right: -100px; animation-delay: -3s; }
+  .blob-3 { width: 300px; height: 300px; background: var(--lime); top: 40%; left: 50%; animation-delay: -5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; width: 100%; }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 40px; height: 1px;
+    background: var(--lime);
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero-name .line-2 {
+    display: block;
+    -webkit-text-stroke: 1.5px var(--white);
+    color: transparent;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--lime);
+    color: var(--bg);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 2px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .hero-cta:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--violet); }
+  .hero-cta svg { transition: transform 0.2s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .hero-tags {
+    position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 0.6rem;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .tag-pill {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    border: 1px solid;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 7rem 3rem; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: auto;
+    max-width: 200px;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1.5px solid var(--border);
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    display: flex; flex-direction: column;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent, var(--lime));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card:hover { background: #14141e; }
+
+  .project-card:nth-child(1) { --accent: var(--lime); }
+  .project-card:nth-child(2) { --accent: var(--coral); }
+  .project-card:nth-child(3) { --accent: var(--sky); }
+  .project-card:nth-child(4) { --accent: var(--violet); }
+  .project-card:nth-child(5) { --accent: var(--orange); }
+  .project-card:nth-child(6) { --accent: var(--lime); }
+
+  .project-number {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--accent, var(--lime));
+    margin-bottom: 1.5rem;
+  }
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+  }
+  .project-desc {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.8;
+    flex: 1;
+    margin-bottom: 2rem;
+  }
+  .project-stack {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .stack-badge {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .project-card:hover .stack-badge { border-color: var(--accent); color: var(--white); }
+
+  .project-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: gap 0.2s;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    margin-top: auto;
+  }
+  .project-link:hover { gap: 0.9rem; }
+
+  /* big featured card */
+  .project-card.featured {
+    grid-column: span 2;
+    flex-direction: row;
+    gap: 3rem;
+    align-items: center;
+  }
+  .project-card.featured .project-info { flex: 1; }
+  .project-card.featured .project-visual {
+    width: 220px; height: 220px; flex-shrink: 0;
+    border-radius: 50%;
+    background: conic-gradient(var(--lime) 0%, var(--sky) 33%, var(--violet) 66%, var(--lime) 100%);
+    animation: spin 12s linear infinite;
+    opacity: 0.7;
+  }
+  .project-card.featured .project-visual-inner {
+    width: 220px; height: 220px; flex-shrink: 0;
+    position: relative;
+  }
+  .project-card.featured .project-visual-inner::before {
+    content: '';
+    position: absolute; inset: 20px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .project-card.featured .project-visual-inner .ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--lime), var(--sky), var(--violet), var(--lime));
+    animation: spin 8s linear infinite;
+  }
+  .project-card.featured .project-visual-inner .inner-dot {
+    position: absolute; inset: 0;
+    z-index: 2;
+    display: grid; place-items: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--lime);
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex; gap: 3rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    color: var(--border);
+    display: flex; align-items: center; gap: 3rem;
+    flex-shrink: 0;
+  }
+  .marquee-item .dot {
+    width: 8px; height: 8px;
+    background: var(--lime);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 4rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer-left .big-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .footer-left .big-text span { color: var(--lime); }
+  .footer-left p { font-size: 0.7rem; color: var(--muted); }
+
+  .footer-email {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+    text-decoration: none;
+    border-bottom: 2px solid var(--lime);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .footer-email:hover { color: var(--lime); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .hero-tags { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .project-card.featured { grid-column: span 1; flex-direction: column; }
+    .project-card.featured .project-visual-inner { width: 120px; height: 120px; }
+    footer { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>//</span> albert.shen</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Seeking Co-op · Open to Work</div>
+    <h1 class="hero-name">
+      ALBERT<br>
+      <span class="line-2">SHEN</span>
+    </h1>
+    <p class="hero-tagline">
+      First-year Math student at the University of Waterloo.
+    </p>
+    <a href="#projects" class="hero-cta">
+      View my work
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+
+    <div class="hero-tags">
+      <div class="tag-pill" style="border-color: var(--muted); color: var(--muted); font-size:0.55rem; letter-spacing:0.18em;">LANGUAGES</div>
+      <div class="tag-pill" style="border-color: var(--lime); color: var(--lime);">HTML · CSS · JS · Python</div>
+      <div class="tag-pill" style="border-color: var(--muted); color: var(--muted); font-size:0.55rem; letter-spacing:0.18em;">FRAMEWORKS</div>
+      <div class="tag-pill" style="border-color: var(--sky); color: var(--sky);">React · Node.js · Express</div>
+      <div class="tag-pill" style="border-color: var(--muted); color: var(--muted); font-size:0.55rem; letter-spacing:0.18em;">LIBRARIES</div>
+      <div class="tag-pill" style="border-color: var(--violet); color: var(--violet);">Pandas · Matplotlib</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">UWaterloo CS <span class="dot"></span></div>
+    <div class="marquee-item">React · Node · Python <span class="dot"></span></div>
+    <div class="marquee-item">Seeking Co-op 2025 <span class="dot"></span></div>
+    <div class="marquee-item">Data · Web · Automation <span class="dot"></span></div>
+    <div class="marquee-item">UWaterloo CS <span class="dot"></span></div>
+    <div class="marquee-item">React · Node · Python <span class="dot"></span></div>
+    <div class="marquee-item">Seeking Co-op 2025 <span class="dot"></span></div>
+    <div class="marquee-item">Data · Web · Automation <span class="dot"></span></div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Selected Work</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Featured project -->
+    <div class="project-card featured">
+      <div class="project-info">
+        <div class="project-number">01 — Featured</div>
+        <div class="project-name">Canadian Housing Market Analysis</div>
+        <p class="project-desc">
+          Collected and cleaned 20+ years of national housing price data from Statistics Canada. 
+          Identified long-term trends and market shifts through exploratory data analysis, 
+          and built annotated time-series visualisations highlighting the impact of the 2008 
+          financial crisis, COVID-19 boom, and 2022 rate hike cycle.
+        </p>
+        <div class="project-stack">
+          <span class="stack-badge">Python</span>
+          <span class="stack-badge">Pandas</span>
+          <span class="stack-badge">Matplotlib</span>
+        </div>
+        <a href="https://github.com/YOUR_USERNAME/canadian-housing-analysis" target="_blank" class="project-link">
+          View on GitHub
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="project-visual-inner">
+        <div class="ring"></div>
+        <div class="inner-dot">📈</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">02</div>
+      <div class="project-name">Personal Finance Dashboard</div>
+      <p class="project-desc">Multi-sheet interactive budget tracker logging 6 months of income & expenses across 8 categories. Analysed 100+ transactions with automated pivot tables, reducing manual calculations by ~40–50%. Dynamic dashboard with donut charts, bar charts, and KPI cards that auto-update.</p>
+      <div class="project-stack">
+        <span class="stack-badge">Excel</span>
+        <span class="stack-badge">Pivot Tables</span>
+        <span class="stack-badge">Data Viz</span>
+      </div>
+      <a href="https://github.com/YOUR_USERNAME/personal-finance-dashboard" target="_blank" class="project-link">
+        View on GitHub
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="project-name">Personal Portfolio Website</div>
+      <p class="project-desc">Designed and developed a personal portfolio website to showcase technical projects and skills. Implemented a responsive layout for accessibility across desktop and mobile, with clearly structured project pages.</p>
+      <div class="project-stack">
+        <span class="stack-badge">HTML</span>
+        <span class="stack-badge">CSS</span>
+      </div>
+      <a href="https://github.com/YOUR_USERNAME/portfolio" target="_blank" class="project-link">
+        View on GitHub
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="footer-left">
+    <div class="big-text">Let's<br>connect<span>.</span></div>
+    <p>Seeking co-op opportunities · University of Waterloo, Math</p>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.75rem;">
+    <a href="/cdn-cgi/l/email-protection#81e0ede3e4f3f5aff2b2b0b6b8c1e6ece0e8edafe2eeec" class="footer-email"><span class="__cf_email__" data-cfemail="bcddd0ded9cec892cf8f8d8b85fcdbd1ddd5d092dfd3d1">[email&#160;protected]</span></a>
+    <a href="https://www.linkedin.com/in/albert-shen-js" target="_blank" class="footer-email" style="font-size:0.8rem;">linkedin.com/in/albert-shen-js</a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    ring.style.left = mx + 'px';
+    ring.style.top = my + 'px';
+  });
+
+  // Accent on hover for cursor
+  document.querySelectorAll('a, button, .project-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entr
